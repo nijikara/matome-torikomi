@@ -16,17 +16,19 @@ def get():
     field = request.args.get("field","")
     rows = request.args.get('rows') 
     words = request.args.get('words') 
-    matome_out.output(field,int(rows),int(words))
-    now = datetime.datetime.now()
+    today = datetime.datetime.now()
+    file_name = 'myfile' + today.strftime('%Y%m%d%H%M%S') + '.html'
+    matome_out.output(field,int(rows),int(words),file_name)
     if request.method == 'GET': # GETされたとき
         # print(field)
         print('出力')
-        f = open('templates/myfile.html', 'r', encoding='UTF-8')
+        f = open('templates/' + file_name, 'r', encoding='UTF-8')
 
         data = f.read()
         print(data)
         f.close()
-        return render_template('myfile.html',data = data)
+        print(file_name)
+        return render_template(file_name,data = data)
     elif request.method == 'POST': # POSTされたとき
         return 'POST'
 

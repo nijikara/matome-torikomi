@@ -4,14 +4,16 @@ from bs4 import BeautifulSoup
 import textwrap
 import budoux
 import re
+import datetime
 import os
 
 from common import kaigyo
 # Webページを取得して解析する
-def output(load_url,rows,words):
+def output(load_url,rows,words,file_name):
     # load_url = "http://kidan-m.com/archives/26256231.html"
     html = requests.get(load_url)
     soup = BeautifulSoup(html.content, "html.parser")
+
     # elems = soup.find_all('p', class_='ind')
     # elems = soup.find_all('div', class_='t_b')
     # elems = soup.find_all('div', class_=['t_h', 't_b'])
@@ -35,9 +37,10 @@ def output(load_url,rows,words):
 
     count = 0
 
-    os.remove('templates/myfile.html')
+    today = datetime.date.today()
+    file_name = 'templates/' + file_name
     # HTML全体を表示する
-    f = open('templates/myfile.html', 'w', encoding='UTF-8')
+    f = open(file_name, 'w', encoding='UTF-8')
     f.writelines('<table border="1"><tr><th>{{name}}</th><th>レス</th></tr>')
     res_no = ''
     for elem in elems:
