@@ -1,11 +1,10 @@
 from flask import render_template
 import requests
 from bs4 import BeautifulSoup
-import textwrap
 import budoux
 import re
-import datetime
 import os
+import shutil
 
 from common import kaigyo
 # Webページを取得して解析する
@@ -36,9 +35,11 @@ def output(load_url,rows,words,file_name):
     characters = ['俺','嫁','間男','私']
 
     count = 0
-
-    today = datetime.date.today()
-    file_name = 'templates/' + file_name
+    # フォルダ削除
+    shutil.rmtree('templates/out')
+    # フォルダ作成
+    os.mkdir('templates/out')
+    file_name = 'templates/out/' + file_name
     # HTML全体を表示する
     f = open(file_name, 'w', encoding='UTF-8')
     f.writelines('<table border="1"><tr><th>{{name}}</th><th>レス</th></tr>')
