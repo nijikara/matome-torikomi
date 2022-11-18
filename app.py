@@ -1,6 +1,4 @@
 from flask import Flask, render_template
-# ↓　Flaskを通し実行したいファイルをインポート
-# py -m pip install gunicorn
 import matome_out
 from flask import request
 
@@ -21,6 +19,7 @@ def get():
     
     if request.method == 'GET': # GETされたとき
         # print(field)
+        print('出力')
         return render_template('myfile.html')
     elif request.method == 'POST': # POSTされたとき
         return 'POST'
