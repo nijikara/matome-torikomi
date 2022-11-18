@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+
+<head>
+  <title>{{ title }}</title>
+  <link rel="stylesheet" href="/static/css/index.css">
+</head>
+
+<body>
+  <div class="member">
+    <form method="GET" action="/scraping">
+      <p>URL：<input type="text" name="field" size="40" ></p>
+      <p>セルの改行をする行数：
+        <select name="rows">
+          <option value="3">3</option>
+          <option value="4" selected>4</option>
+          <option value="5">5</option><!-- CHECK -->
+          <option value="6">6</option><!-- CHECK -->
+        </select>
+      </p>
+      <p>一行あたりの文字数：
+        <select name="words">
+          <option value="12">12</option>
+          <option value="13">13</option>
+          <option value="14">14</option><!-- CHECK -->
+          <option value="15">15</option>
+          <option value="16">16</option>
+          <option value="17">17</option>
+          <option value="18">18</option>
+          <option value="19">19</option>
+          <option value="20">20</option>
+          <option value="21" selected>21</option>
+          <option value="22">22</option>
+          <option value="23">23</option>
+          <option value="24">24</option>
+        </select>
+      </p>
+      <button type="submit">出力</button>
+    </form>
+  </div>
+</body>
+
+</html>

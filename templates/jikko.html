@@ -1,0 +1,20 @@
+<!doctype html>
+<html>
+
+<head>
+  <title>{{ title }}</title>
+  <link rel="stylesheet" href="/static/css/index.css">
+</head>
+
+<body>
+  <div class="member">
+    <p>苗字: {{name}}</p>
+    <form method="GET" action="/scraping">
+      <input type="text" name="username" placeholder="Your name">
+      <p>実行<input type="text" name="name"></p>
+      <button type="submit">出力</button>
+    </form>
+  </div>
+</body>
+
+</html>
