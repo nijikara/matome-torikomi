@@ -26,7 +26,7 @@ def get():
         print(data)
 
         f.close()
-        return render_template('myfile.html')
+        return render_template('myfile.html',article=data)
     elif request.method == 'POST': # POSTされたとき
         return 'POST'
 
