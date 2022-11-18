@@ -1,6 +1,7 @@
 from flask import Flask, render_template
 import matome_out
 from flask import request
+import datetime
 
 app = Flask(__name__)
 load_url = "http://kidan-m.com/archives/26256231.html"
@@ -16,17 +17,16 @@ def get():
     rows = request.args.get('rows') 
     words = request.args.get('words') 
     matome_out.output(field,int(rows),int(words))
-    
+    now = datetime.datetime.now()
     if request.method == 'GET': # GETされたとき
         # print(field)
         print('出力')
-        f = open('myfile.txt', 'r')
+        f = open('templates/myfile.html', 'r', encoding='UTF-8')
 
         data = f.read()
         print(data)
-
         f.close()
-        return render_template('myfile.html')
+        return render_template('myfile.html',name = now)
     elif request.method == 'POST': # POSTされたとき
         return 'POST'
 

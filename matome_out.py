@@ -35,7 +35,7 @@ def output(load_url,rows,words):
     count = 0
     # HTML全体を表示する
     f = open('templates/myfile.html', 'w', encoding='UTF-8')
-    f.writelines('<table border="1"><tr><th>名前</th><th>レス</th></tr>')
+    f.writelines('<table border="1"><tr><th>{{name}}</th><th>レス</th></tr>')
     res_no = ''
     for elem in elems:
         # print(elem)
@@ -151,4 +151,4 @@ def output(load_url,rows,words):
 
     f.writelines('</table>')
     f.close()
-    render_template("/myfile.html")
+    # render_template("/myfile.html")
