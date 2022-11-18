@@ -20,13 +20,13 @@ def get():
     if request.method == 'GET': # GETされたとき
         # print(field)
         print('出力')
-        f = open('templates/myfile.html', 'r', encoding='UTF-8')
+        f = open('myfile.txt', 'r')
 
         data = f.read()
         print(data)
 
         f.close()
-        return render_template('myfile.html',article=data)
+        return render_template('myfile.html')
     elif request.method == 'POST': # POSTされたとき
         return 'POST'
 
