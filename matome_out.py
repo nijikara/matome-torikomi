@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 import textwrap
 import budoux
 import re
+import os
 
 from common import kaigyo
 # Webページを取得して解析する
@@ -33,6 +34,8 @@ def output(load_url,rows,words):
     characters = ['俺','嫁','間男','私']
 
     count = 0
+
+    os.remove('templates/myfile.html')
     # HTML全体を表示する
     f = open('templates/myfile.html', 'w', encoding='UTF-8')
     f.writelines('<table border="1"><tr><th>{{name}}</th><th>レス</th></tr>')
