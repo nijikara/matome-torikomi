@@ -44,13 +44,26 @@ def output(load_url,rows,words,file_name):
     f = open(file_name, 'w', encoding='UTF-8')
     f.writelines('<table border="1"><tr><th>{{name}}</th><th>レス</th></tr>')
     res_no = ''
+    print('みてね')
+    print(elems)
     for elem in elems:
         # print(elem)
+        # 固定リンクをスルーする
+        if elem.find('div', class_=['kotei-link']):
+            continue
         # 二重のres_hタグをスルーする
         if elem.find('div', class_=[res_h, res_b]):
             continue
+        # アンカーの中身だけをとる(気団対策)
+        if elem.find('div', class_=['anchor']):
+            for anchor in elem.find_all('div', class_=['anchor']):
+                #アンカーを消す
+                # anchor.extract()
+                anchor.unwrap()
+                
 
         count += 1
+        print(count)
         # 名前かレスか判定
         if count == 1:
             # 新規行

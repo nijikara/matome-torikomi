@@ -4,7 +4,6 @@ from flask import request
 import datetime
 
 app = Flask(__name__)
-load_url = "http://kidan-m.com/archives/26256231.html"
 
 @app.route('/')
 def hello():
