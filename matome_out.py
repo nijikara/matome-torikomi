@@ -42,7 +42,7 @@ def output(load_url,rows,words,file_name):
     file_name = 'templates/out/' + file_name
     # HTML全体を表示する
     f = open(file_name, 'w', encoding='UTF-8')
-    f.writelines('<table border="1"><tr><th>{{name}}</th><th>レス</th></tr>')
+    f.writelines('<table border="1"><tr><th>名前</th><th>レス</th></tr>')
     res_no = ''
     print('みてね')
     print(elems)
