@@ -8,7 +8,7 @@ import shutil
 
 from common import kaigyo
 # Webページを取得して解析する
-def output(load_url,rows,words,file_name):
+def output(load_url,rows,words,file_name,remove_anker):
     # load_url = "http://kidan-m.com/archives/26256231.html"
     html = requests.get(load_url)
     soup = BeautifulSoup(html.content, "html.parser")
@@ -56,10 +56,21 @@ def output(load_url,rows,words,file_name):
             continue
         # アンカーの中身だけをとる(気団対策)
         if elem.find('div', class_=['anchor']):
+            print("みたぞ")
             for anchor in elem.find_all('div', class_=['anchor']):
                 #アンカーを消す
-                # anchor.extract()
-                anchor.unwrap()
+                if remove_anker: 
+                    anchor.extract()
+                else:
+                    anchor.unwrap()
+        if elem.find('span', class_=['anchor']):
+            print("みたよ")
+            for anchor in elem.find_all('span', class_=['anchor']):
+                #アンカーを消す
+                if remove_anker: 
+                    anchor.extract()
+                else:
+                    anchor.unwrap()
                 
 
         count += 1

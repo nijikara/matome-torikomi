@@ -16,8 +16,9 @@ def get():
     rows = request.args.get('rows') 
     words = request.args.get('words') 
     today = datetime.datetime.now()
+    remove_anker = request.args.get('anker') 
     file_name = 'myfile' + today.strftime('%Y%m%d%H%M%S') + '.html'
-    matome_out.output(field,int(rows),int(words),file_name)
+    matome_out.output(field,int(rows),int(words),file_name,remove_anker)
     if request.method == 'GET': # GETされたとき
         # print(field)
         print('出力')
