@@ -1,3 +1,4 @@
+from urllib import request
 from flask import render_template
 import requests
 from bs4 import BeautifulSoup
@@ -5,15 +6,25 @@ import budoux
 import re
 import os
 import shutil
-from requests_html import HTMLSession
-
 
 from common import kaigyo
-# Webページを取得して解析する
-def output(load_url,rows,words,file_name,remove_anker):
+
+
+
+
+
+
+
+def output_see(load_url,rows,words,file_name,remove_anker,auto_kaigyo):
     # load_url = "http://kidan-m.com/archives/26256231.html"
-    html = requests.get(load_url)
-    soup = BeautifulSoup(html.content, "html.parser")
+    response = request.urlopen(load_url)
+    content = response.read()
+    response.close()
+    html = content.decode()
+    print(html)
+
+    soup = BeautifulSoup(html, "html.parser")
+    print(soup)
 
     # elems = soup.find_all('p', class_='ind')
     # elems = soup.find_all('div', class_='t_b')
@@ -77,6 +88,15 @@ def output(load_url,rows,words,file_name,remove_anker):
                     anchor.extract()
                 else:
                     anchor.unwrap()
+        # フェミ松：リプライURLを消す
+        if elem.find('a', class_=['mtpro-tweet-link']):
+            print("みたよ")
+            for anchor in elem.find_all('a', class_=['mtpro-tweet-link']):
+                #アンカーを消す
+                if remove_anker: 
+                    anchor.extract()
+                else:
+                    anchor.unwrap()
                 
 
         count += 1
@@ -100,7 +120,10 @@ def output(load_url,rows,words,file_name,remove_anker):
         soumojisu = 0
         speakChar = False
         if count == 2:
-            res = kaigyo(str(elem), soumojisu,parser,p,words)
+            if auto_kaigyo:
+                res = kaigyo(str(elem), soumojisu,parser,p,words)
+            else:
+                res = str(elem)
             # レスの改行数
             brIdx = res.split('<br/>')
             # print(brIdx)
@@ -132,7 +155,7 @@ def output(load_url,rows,words,file_name,remove_anker):
                 print(res_name)
                 print(item)
                 print(speakChar)
-                if (rowIdx % rows == 0 and len(brIdx) != rowCnt + 1) or (speakChar == True and '」' in item):
+                if ((rowIdx % rows == 0 and len(brIdx) != rowCnt + 1) or (speakChar == True and '」' in item)) and auto_kaigyo:
                     rowIdx = 0
                     # print('改行')
                     if speakChar == True :

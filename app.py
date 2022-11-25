@@ -1,5 +1,6 @@
 from flask import Flask, render_template
 import matome_out
+import matome_out_see
 from flask import request
 import datetime
 
@@ -16,9 +17,11 @@ def get():
     rows = request.args.get('rows') 
     words = request.args.get('words') 
     today = datetime.datetime.now()
+    auto_kaigyo = request.args.get('auto_kaigyo')
     remove_anker = request.args.get('anker') 
     file_name = 'myfile' + today.strftime('%Y%m%d%H%M%S') + '.html'
-    matome_out.output(field,int(rows),int(words),file_name,remove_anker)
+    # matome_out.output(field,int(rows),int(words),file_name,remove_anker)
+    matome_out_see.output_see(field,int(rows),int(words),file_name,remove_anker,auto_kaigyo)
     if request.method == 'GET': # GETされたとき
         # print(field)
         print('出力')

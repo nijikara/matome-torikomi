@@ -2,12 +2,8 @@ import re
 def kaigyo(item, soumojisu,parser,p,words):
     outSentence = ''
     itemSentence = parser.translate_html_string(item)
-    # print(itemSentence)
     itemSentence = itemSentence.replace('、','、<wbr>')
     itemSentence = itemSentence.replace('。','。<wbr>')
-    # itemSentence = itemSentence.replace('<br/>','<wbr>')
-    # itemSentence = itemSentence.replace('<br >','<br/>')
-    # itemSentence = itemSentence.replace('</br>','<br/>')
     sentences = itemSentence.split('</br>')
     sentences = re.split('<br/>|<br >|</br>', itemSentence)
     for sentence in sentences:
