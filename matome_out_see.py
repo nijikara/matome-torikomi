@@ -1,22 +1,14 @@
 from urllib import request
 from flask import render_template
-import requests
 from bs4 import BeautifulSoup
 import budoux
 import re
 import os
 import shutil
-
-from common import kaigyo
-
-
-
-
-
-
+from common import add_sum_td, kaigyo
 
 def output_see(load_url,rows,words,file_name,remove_anker,auto_kaigyo):
-    # load_url = "http://kidan-m.com/archives/26256231.html"
+    # load_url = "http://kidan-m.com/archives/57240754.html#more"
     response = request.urlopen(load_url)
     content = response.read()
     response.close()
@@ -26,9 +18,6 @@ def output_see(load_url,rows,words,file_name,remove_anker,auto_kaigyo):
     soup = BeautifulSoup(html, "html.parser")
     print(soup)
 
-    # elems = soup.find_all('p', class_='ind')
-    # elems = soup.find_all('div', class_='t_b')
-    # elems = soup.find_all('div', class_=['t_h', 't_b'])
     # //レスヘッダー
     res_h = 't_h'
     # //レスボディ
@@ -63,8 +52,10 @@ def output_see(load_url,rows,words,file_name,remove_anker,auto_kaigyo):
     res_no = ''
     print('みてね')
     print(elems)
+    all_row = 1
+    # Twitterリンク
+    tw_link = ''
     for elem in elems:
-        # print(elem)
         # 固定リンクをスルーする
         if elem.find('div', class_=['kotei-link']):
             continue
@@ -90,13 +81,17 @@ def output_see(load_url,rows,words,file_name,remove_anker,auto_kaigyo):
                     anchor.unwrap()
         # フェミ松：リプライURLを消す
         if elem.find('a', class_=['mtpro-tweet-link']):
-            print("みたよ")
             for anchor in elem.find_all('a', class_=['mtpro-tweet-link']):
-                #アンカーを消す
-                if remove_anker: 
-                    anchor.extract()
-                else:
-                    anchor.unwrap()
+                #リプライURLを消す
+                anchor.extract()
+        if elem.find('a', class_=['tweet-url username']):
+            for anchor in elem.find_all('a', class_=['tweet-url username']):
+                #リプライURLを消す
+                anchor.extract()
+        # フェミ松：twリンク取得
+        if elem.find('a', class_=['mtpro-timestamp']):
+            for link in elem.find_all('a', class_=['mtpro-timestamp']):
+                tw_link = link.get('href')
                 
 
         count += 1
@@ -104,19 +99,14 @@ def output_see(load_url,rows,words,file_name,remove_anker,auto_kaigyo):
         # 名前かレスか判定
         if count == 1:
             # 新規行
-            # f.writelines('<tr>')
             if isIcchi in str(elem):
                 res_name = 'イッチ男'
             else:
                 res_no = str(elem)
                 res_name = res_no
-            # f.writelines('<td>')
-            # f.writelines(res_name)
-            # f.writelines('</td>')
-        # レスの場合
+        # セル内改行判定
         rowIdx = 0
         rowCnt = 0
-        charCnt = 0
         soumojisu = 0
         speakChar = False
         if count == 2:
@@ -126,10 +116,7 @@ def output_see(load_url,rows,words,file_name,remove_anker,auto_kaigyo):
                 res = str(elem)
             # レスの改行数
             brIdx = res.split('<br/>')
-            # print(brIdx)
-            # print(len(brIdx))
             for item in brIdx:
-                # print(item)
                 rowCnt += 1
                 if len(str.strip(item)) == 0:
                     continue
@@ -159,7 +146,6 @@ def output_see(load_url,rows,words,file_name,remove_anker,auto_kaigyo):
                     rowIdx = 0
                     # print('改行')
                     if speakChar == True :
-                        # f.writelines( item)
                         print(item)
                         print('syaberu')
                         kakkotoji = item.find('」')
@@ -171,19 +157,15 @@ def output_see(load_url,rows,words,file_name,remove_anker,auto_kaigyo):
                         if kakkotoji != -1:
                             speakChar = False
                             f.writelines('</td>')
+                            all_row = add_sum_td(f,all_row,tw_link)
                             f.writelines('</tr>')
                         # //人物の発言が終わった後にレス番号にする
                         res_name = res_no
                     else:
                         f.writelines(item)
                         f.writelines('</td>')
+                        all_row = add_sum_td(f,all_row,tw_link)
                         f.writelines('</tr>')
-                    # 次のセルへ
-                    # f.writelines('<tr>')
-                    # f.writelines('<td>')
-                    # f.writelines(res_name)
-                    # f.writelines('</td>')
-                    # f.writelines('<td>')
                 else:
                     if speakChar == True :
                         item = item.replace(res_name,'')
@@ -195,20 +177,9 @@ def output_see(load_url,rows,words,file_name,remove_anker,auto_kaigyo):
                     if len(brIdx) != rowCnt + 1:
                         f.writelines('<br/>')
             f.writelines('</td>')
+            all_row = add_sum_td(f,all_row,tw_link)
             f.writelines('</tr>')
-
-
-
-
-            # if str(elem).count('<br/>') >= cr:
-            #     a = 0
-
-            # f.writelines('<td>')
-            # f.writelines(str(elem))
-            # f.writelines('</td>')
-            # f.writelines('</tr>')
             count = 0
 
     f.writelines('</table>')
     f.close()
-    # render_template("/myfile.html")

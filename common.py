@@ -20,8 +20,6 @@ def kaigyo(item, soumojisu,parser,p,words):
                 continue
             # htmlタグを消してカウントする
             soumojisu += mojisu
-            # print(wSentence)
-            # print(soumojisu)
             if soumojisu > words:
                 soumojisu = mojisu
                 outSentence += '<br/>'
@@ -33,3 +31,15 @@ def kaigyo(item, soumojisu,parser,p,words):
     return outSentence
     # f.writelines(item)
 
+
+def add_sum_td(f, row,tw_link):
+    row = row + 1
+    f.writelines('<td>')
+    f.writelines('=LEN(B'+str(row)+')')
+    f.writelines('</td>')
+    if tw_link != '':
+        f.writelines('<td>')
+        f.writelines(tw_link)
+        f.writelines('</td>')
+
+    return row
