@@ -35,6 +35,8 @@ def kaigyo(item, soumojisu,parser,p,words):
 def add_sum_td(f, row,tw_link):
     row = row + 1
     f.writelines('<td>')
+    print(row)
+    print('ADD')
     f.writelines('=LEN(B'+str(row)+')')
     f.writelines('</td>')
     if tw_link != '':

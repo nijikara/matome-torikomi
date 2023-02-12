@@ -140,7 +140,9 @@ def output_see(load_url,rows,words,file_name,remove_anker,auto_kaigyo):
                 #brタグが４つ以上の時、セルを改める
                 # 4行行目かつ次が最終行でない場合
                 print(res_name)
+                print('↓アイテム表示')
                 print(item)
+                print('↑アイテム表示')
                 print(speakChar)
                 if ((rowIdx % rows == 0 and len(brIdx) != rowCnt + 1) or (speakChar == True and '」' in item)) and auto_kaigyo:
                     rowIdx = 0

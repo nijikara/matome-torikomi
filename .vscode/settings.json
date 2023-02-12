@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/4e156ee2-c6f0-411e-861d-f08abb7498da/AppServices/subscriptions/4e156ee2-c6f0-411e-861d-f08abb7498da/resourceGroups/appsvc_linux_centralus_basic/providers/Microsoft.Web/sites/matome-torikomi-app",
+    "appService.deploySubpath": "."
+}
